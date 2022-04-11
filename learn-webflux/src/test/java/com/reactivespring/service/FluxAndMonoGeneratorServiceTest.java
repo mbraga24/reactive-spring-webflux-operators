@@ -22,7 +22,5 @@ public class FluxAndMonoGeneratorServiceTest {
 			.verifyComplete();
 	}
 	
-	@Test
-	
 	
 }
