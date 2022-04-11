@@ -11,9 +11,6 @@ public class FluxAndMonoGeneratorServiceTest {
 	@Test
 	void namesFlux() {
 		
-		// given
-		
-		// when 
 		var namesFlux = fluxAndMonoGeneratorService.namesFlux();
 		
 		// then
@@ -23,7 +20,9 @@ public class FluxAndMonoGeneratorServiceTest {
 			.expectNext("Alex") // 1. expecting the first element 
 			.expectNextCount(2) // 2. expecting the remaining count of elements
 			.verifyComplete();
-		
 	}
+	
+	@Test
+	
 	
 }
