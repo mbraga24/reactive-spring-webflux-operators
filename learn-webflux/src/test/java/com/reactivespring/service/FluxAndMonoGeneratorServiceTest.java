@@ -11,19 +11,26 @@ public class FluxAndMonoGeneratorServiceTest {
 	@Test
 	void namesFlux() {
 		
-		// given
-		
-		// when 
 		var namesFlux = fluxAndMonoGeneratorService.namesFlux();
 		
-		// then
 		StepVerifier.create(namesFlux)
 //			.expectNext("Alex", "Joye", "Mark") // expecting the exact elements
 //			.expectNextCount(3) // expecting the exact number of elements
 			.expectNext("Alex") // 1. expecting the first element 
 			.expectNextCount(2) // 2. expecting the remaining count of elements
 			.verifyComplete();
+	}
+	
+	@Test
+	void namesFlux_map() {
+		
+		var namesFlux = fluxAndMonoGeneratorService.namesFlux_map();
+		
+		StepVerifier.create(namesFlux)
+			.expectNext("ALEX", "JOYE", "MARK")
+			.verifyComplete();
 		
 	}
+	
 	
 }
