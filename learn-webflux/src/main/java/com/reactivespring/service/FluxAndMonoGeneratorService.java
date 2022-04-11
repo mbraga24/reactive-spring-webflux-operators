@@ -46,8 +46,18 @@ public class FluxAndMonoGeneratorService {
 		// fromIterable - takes in a collection, creates and returns the flux
 		return Flux.fromIterable(List.of("Alex", "Joye", "Mark"))
 				.map(String::toUpperCase)
-//		        .map(str -> str.toUpperCase())
+             // .map(str -> str.toUpperCase())
 				.log();
+	}
+	
+	// Reactive Strings are immutable
+	// The map() operator will return a new Flux as a response.
+	public Flux<String> namesFlux_immutability() {
+		
+		var namesFlux = Flux.fromIterable(List.of("Alex", "Joye", "Mark"));
+		namesFlux.map(String::toUpperCase); // the values won't change to uppercase words
+		return namesFlux;
+				
 	}
 	
 }
