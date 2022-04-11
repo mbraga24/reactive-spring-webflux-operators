@@ -12,8 +12,7 @@ public class FluxAndMonoGeneratorService {
 		
 		// fromIterable - takes in a collection, creates and returns the flux
 		return Flux.fromIterable(List.of("Alex", "Joye", "Mark"))
-				.log(); // flux will be coming from a database or remote service call
-		
+				.log(); // flux will be coming from a database or remote service call		
 	}
 	
 	public Mono<String> nameMono() {
@@ -40,6 +39,15 @@ public class FluxAndMonoGeneratorService {
 			System.out.println("Mono => Name is : " + name);
 		});
 		
+	}
+	
+	public Flux<String> namesFlux_map() {
+		
+		// fromIterable - takes in a collection, creates and returns the flux
+		return Flux.fromIterable(List.of("Alex", "Joye", "Mark"))
+				.map(String::toUpperCase)
+//		        .map(str -> str.toUpperCase())
+				.log();
 	}
 	
 }
