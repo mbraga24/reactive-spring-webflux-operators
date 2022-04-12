@@ -19,11 +19,8 @@ public class FluxAndMonoGeneratorServiceTest {
 			.expectNext("Alex") // 1. expecting the first element 
 			.expectNextCount(2) // 2. expecting the remaining count of elements
 			.verifyComplete();
-<<<<<<< HEAD
 	}
 	
-=======
-	}
 	
 	@Test
 	void namesFlux_map() {
@@ -48,6 +45,19 @@ public class FluxAndMonoGeneratorServiceTest {
 		
 	}
 	
->>>>>>> map-operator
-	
+	@Test
+	void namesFlux_filter() {
+
+		// given
+		int strLength = 3;
+		
+		// when
+		var namesFlux = fluxAndMonoGeneratorService.namesFlux_filter(strLength);
+		
+		// then
+		StepVerifier.create(namesFlux)
+			.expectNext("4: ALEX", "4: JOYE", "4: MARK")
+			.verifyComplete();
+			
+	}	
 }
