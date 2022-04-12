@@ -1,6 +1,8 @@
 package com.reactivespring.service;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.Random;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -77,11 +79,28 @@ public class FluxAndMonoGeneratorService {
 				.log();
 	}
 	
+	public Flux<String> namesFlux_flatmap_async() {
+		
+		return Flux.fromIterable(List.of("Alex", "Rod"))
+				.map(String::toUpperCase)
+				.flatMap(str -> splitString_withDelay(str))
+				.log();
+				
+	
+	}
+	
 	// Flux(A,L,E,X)
 	// Flux(R,O,D)
 	public Flux<String> splitString(String name) {
 		var charArray = name.split("");
 		return Flux.fromArray(charArray);
+	}
+	
+	public Flux<String> splitString_withDelay(String name) {
+		var charArray = name.split("");
+		var delay = new Random().nextInt(2000);
+		return Flux.fromArray(charArray)
+				.delayElements(Duration.ofMillis(delay));
 	}
 	
 }
