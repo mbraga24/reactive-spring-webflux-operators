@@ -69,4 +69,19 @@ public class FluxAndMonoGeneratorService {
 				.log();	
 	}
 	
+	public Flux<String> namesFlux_flatmap() {
+	
+		return Flux.fromIterable(List.of("Alex", "Rod"))
+				.map(String::toUpperCase)
+				.flatMap(str -> splitString(str)) // A,L,E,X,R,O,D
+				.log();
+	}
+	
+	// Flux(A,L,E,X)
+	// Flux(R,O,D)
+	public Flux<String> splitString(String name) {
+		var charArray = name.split("");
+		return Flux.fromArray(charArray);
+	}
+	
 }
