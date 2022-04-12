@@ -81,13 +81,36 @@ public class FluxAndMonoGeneratorServiceTest {
 		var namesFlux = fluxAndMonoGeneratorService.namesFlux_flatmap_async();
 		
 		StepVerifier.create(namesFlux)
-			.expectNext("A","L","E","X","R","O","D")
+         // .expectNext("A","L","E","X","R","O","D") // the results will not be in order due the asynchronous nature of .flatMap() 
+			.expectNextCount(7)
 			.verifyComplete();
 		
 	}
 	
 	
+	/*
+	* NOTES: 
+	* 	Trade offs of when to use flatMap() and concatMap():
+	*		concatMap(): order of the elements are preserved but it will take more time to preserve the order/
+	*		flatMap(): lose order of the elements but gain time.
+	*/
 	
+	@Test
+	void namesFlux_concatmap() {
+		
+		var namesFlux = fluxAndMonoGeneratorService.namesFlux_concatmap();
+		
+		/* 
+		 * concatMap() will preserve the order of the elements being processed.
+		 * Every time that asynchronous operations need to preserve
+		 * the order of the elements that are being processed by the
+		 * pipeline, use concatMap().
+		 */
+		StepVerifier.create(namesFlux)
+			.expectNext("A","L","E","X","R","O","D") 
+			.verifyComplete();
+		
+	}
 	
 	
 	
