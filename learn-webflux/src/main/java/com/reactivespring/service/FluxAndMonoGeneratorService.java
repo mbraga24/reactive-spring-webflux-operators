@@ -60,4 +60,13 @@ public class FluxAndMonoGeneratorService {
 				
 	}
 	
+	public Flux<String> namesFlux_filter(int strLength) {
+		
+		return Flux.fromIterable(List.of("Alex", "Joye", "Mark", "Tom"))
+				.map(String::toUpperCase)
+				.filter(str -> str.length() > strLength)
+				.map(str -> str.length() + ": " + str)
+				.log();	
+	}
+	
 }
