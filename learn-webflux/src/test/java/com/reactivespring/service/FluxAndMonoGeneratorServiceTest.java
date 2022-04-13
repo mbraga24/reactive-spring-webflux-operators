@@ -1,5 +1,7 @@
 package com.reactivespring.service;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import reactor.test.StepVerifier;
@@ -109,7 +111,18 @@ public class FluxAndMonoGeneratorServiceTest {
 		StepVerifier.create(namesFlux)
 			.expectNext("A","L","E","X","R","O","D") 
 			.verifyComplete();
+	}
+	
+	@Test
+	void namesMono_flatmap() {
 		
+		int strLength = 3;
+		
+		var monoListStr = fluxAndMonoGeneratorService.namesMono_flatmap(strLength);
+		
+		StepVerifier.create(monoListStr)
+			.expectNext(List.of("A","L","E","X"))
+			.verifyComplete();
 	}
 	
 	
