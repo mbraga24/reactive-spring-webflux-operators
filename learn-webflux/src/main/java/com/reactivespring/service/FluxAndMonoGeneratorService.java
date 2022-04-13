@@ -3,6 +3,7 @@ package com.reactivespring.service;
 import java.time.Duration;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -43,6 +44,8 @@ public class FluxAndMonoGeneratorService {
 		
 	}
 	
+//	******************* Map() & filter() *******************
+	
 	public Flux<String> namesFlux_map() {
 		
 		// fromIterable - takes in a collection, creates and returns the flux
@@ -71,6 +74,8 @@ public class FluxAndMonoGeneratorService {
 				.log();	
 	}
 	
+//	******************* flatMap() *******************
+	
 	public Flux<String> namesFlux_flatmap() {
 	
 		return Flux.fromIterable(List.of("Alex", "Rod"))
@@ -88,6 +93,8 @@ public class FluxAndMonoGeneratorService {
 				
 	}
 	
+//	******************* concatMap() *******************
+	
 	public Flux<String> namesFlux_concatmap() {
 		
 		return Flux.fromIterable(List.of("Alex", "Rod"))
@@ -95,6 +102,9 @@ public class FluxAndMonoGeneratorService {
 				.concatMap(str -> splitString_withDelay(str))
 				.log();
 	}
+	
+	
+//	******************* flatMap() Mono/Flux *******************
 	
 	/* 
 	 * Use flatMap() operator when the transformation returns a Mono.
@@ -122,6 +132,25 @@ public class FluxAndMonoGeneratorService {
 				.filter(str -> str.length() > strLength)
 				.flatMapMany(this::splitString)
 				.log();
+	}
+	
+//	**************** Function Functional Interface **************** 
+	
+	/*
+	 * Use case: When a similar functionality is being used across the project, 
+	 * Function functional interface can be used to minimize repetition simply 
+	 * by passing it as a variable. This concept is knows as ** BEHAVIOR PARAMETERIZATION **.
+	 */
+	
+	public Flux<String> namesFlux_transform(int strLength) {
+		
+		Function<Flux<String>, Flux<String>> filterMap = name -> name.map(String::toUpperCase)
+				.filter(str -> str.length() > strLength);
+		
+		return Flux.fromIterable(List.of("Alex", "Rod"))
+				.transform(filterMap)
+				.flatMap(this::splitString) 
+				.log();	
 	}
 	
 //	============================================================================
