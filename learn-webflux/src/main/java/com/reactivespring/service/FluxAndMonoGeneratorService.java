@@ -97,7 +97,7 @@ public class FluxAndMonoGeneratorService {
 	}
 	
 	/* 
-	 * Use flatMap() when the transformation returns a Mono.
+	 * Use flatMap() operator when the transformation returns a Mono.
 	 * When the transformation involves making a REST API call
 	 * or any kind of functionality that can be done asynchronously.
 	*/
@@ -109,6 +109,24 @@ public class FluxAndMonoGeneratorService {
 				.flatMap(this::splitStringMono) // Mono<List of A, L, E, X>
 				.log(); 
 	}
+	
+	/* 
+	 * Use flatMapMany() opeartor when a transformation returns a Flux
+	 * in the Mono pipeline. 
+	*/
+	
+	public Flux<String> namesMono_flatMapMany(int strLength) {
+		
+		return Mono.just("alex")
+				.map(String::toUpperCase)
+				.filter(str -> str.length() > strLength)
+				.flatMapMany(this::splitString)
+				.log();
+	}
+	
+//	============================================================================
+//								PRIVATE METHODS
+//  ============================================================================
 	
 	private Mono<List<String>> splitStringMono(String word) {
 		var charArr = word.split(""); 
