@@ -153,6 +153,37 @@ public class FluxAndMonoGeneratorService {
 				.log();	
 	}
 	
+	
+	
+//	**************** defaultIfEmpty() & switchIfEmpty() **************** 
+	
+	public Flux<String> namesFlux_transform_defaultIfEmpty(int strLength) {
+		
+		Function<Flux<String>, Flux<String>> filterMap = name -> name.map(String::toUpperCase)
+				.filter(str -> str.length() > strLength);
+		
+		return Flux.fromIterable(List.of("Alex", "Rod"))
+				.transform(filterMap)
+				.flatMap(this::splitString)
+				.defaultIfEmpty("default")
+				.log();	
+	}
+	
+	public Flux<String> namesFlux_transform_switchIfEmpty(int strLength) {
+		
+		Function<Flux<String>, Flux<String>> filterMap = name -> name.map(String::toUpperCase)
+				.filter(str -> str.length() > strLength)
+				.flatMap(this::splitString);
+		
+		var fluxDefault =  Flux.just("default")
+				.transform(filterMap);
+		
+		return Flux.fromIterable(List.of("Alex", "Rod"))
+				.transform(filterMap)
+				.switchIfEmpty(fluxDefault) // "D", "E", "F", "A", "U", "L", "T"
+				.log();	
+	}
+	
 //	============================================================================
 //								PRIVATE METHODS
 //  ============================================================================
